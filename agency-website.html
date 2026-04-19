@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VANTAGE — Influencer Marketing & Talent Agency</title>
+<style>
+  *{margin:0;padding:0;box-sizing:border-box}
+  :root{
+    --purple:#5424bb;
+    --purple-light:#7a4fd6;
+    --purple-glow:rgba(84,36,187,0.18);
+    --purple-soft:rgba(84,36,187,0.08);
+    --white:#ffffff;
+    --off-white:#e8e4f0;
+    --gray:#9a96a8;
+    --dark-gray:#2a2730;
+    --bg:#000000;
+    --surface:rgba(255,255,255,0.03);
+    --surface-hover:rgba(255,255,255,0.06);
+    --border:rgba(255,255,255,0.07);
+    --border-accent:rgba(84,36,187,0.4);
+  }
+  html{scroll-behavior:smooth}
+  body{
+    background:#000;
+    color:var(--white);
+    font-family:'Inter','Helvetica Neue',Arial,sans-serif;
+    font-size:16px;
+    line-height:1.6;
+    overflow-x:hidden;
+  }
+  /* SCROLLBAR */
+  ::-webkit-scrollbar{width:4px}
+  ::-webkit-scrollbar-track{background:#000}
+  ::-webkit-scrollbar-thumb{background:var(--purple);border-radius:2px}
+
+  /* NAV */
+  nav{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    padding:1.5rem 4rem;
+    display:flex;align-items:center;justify-content:space-between;
+    background:rgba(0,0,0,0.6);
+    backdrop-filter:blur(20px);
+    border-bottom:1px solid var(--border);
+    transition:all 0.3s ease;
+  }
+  .nav-logo{
+    font-size:1.2rem;font-weight:700;letter-spacing:0.25em;
+    color:var(--white);text-decoration:none;
+  }
+  .nav-logo span{color:var(--purple-light)}
+  .nav-links{display:flex;gap:2.5rem;list-style:none}
+  .nav-links a{
+    color:var(--gray);text-decoration:none;font-size:0.85rem;
+    letter-spacing:0.08em;text-transform:uppercase;
+    transition:color 0.2s;
+  }
+  .nav-links a:hover{color:var(--white)}
+  .nav-cta{
+    padding:0.6rem 1.5rem;
+    background:var(--purple);
+    color:var(--white);
+    border:none;border-radius:4px;
+    font-size:0.8rem;letter-spacing:0.1em;text-transform:uppercase;
+    font-weight:600;cursor:pointer;text-decoration:none;
+    transition:all 0.2s;
+  }
+  .nav-cta:hover{background:var(--purple-light);transform:translateY(-1px)}
+
+  /* HERO */
+  .hero{
+    min-height:100vh;
+    display:flex;align-items:center;justify-content:center;
+    padding:8rem 4rem 4rem;
+    position:relative;overflow:hidden;
+    text-align:center;
+  }
+  .hero-bg{
+    position:absolute;inset:0;z-index:0;
+    background:radial-gradient(ellipse 80% 60% at 50% 40%,rgba(84,36,187,0.22) 0%,transparent 70%),
+               radial-gradient(ellipse 40% 40% at 80% 70%,rgba(84,36,187,0.08) 0%,transparent 60%);
+  }
+  .hero-orb{
+    position:absolute;
+    border-radius:50%;
+    background:radial-gradient(circle,rgba(84,36,187,0.35),transparent 70%);
+    animation:float 8s ease-in-out infinite;
+  }
+  .hero-orb-1{width:500px;height:500px;top:-100px;left:-150px;animation-delay:0s}
+  .hero-orb-2{width:400px;height:400px;bottom:-80px;right:-100px;animation-delay:-4s}
+  @keyframes float{
+    0%,100%{transform:translateY(0) scale(1)}
+    50%{transform:translateY(-30px) scale(1.05)}
+  }
+  .hero-content{position:relative;z-index:1;max-width:900px}
+  .hero-badge{
+    display:inline-flex;align-items:center;gap:0.5rem;
+    padding:0.4rem 1.2rem;
+    border:1px solid var(--border-accent);
+    border-radius:100px;
+    font-size:0.75rem;letter-spacing:0.15em;text-transform:uppercase;
+    color:var(--purple-light);background:var(--purple-soft);
+    margin-bottom:2rem;
+    animation:fadeUp 0.8s ease both;
+  }
+  .hero-badge::before{
+    content:'';width:6px;height:6px;border-radius:50%;
+    background:var(--purple-light);animation:pulse 2s infinite;
+  }
+  @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.3}}
+  .hero h1{
+    font-size:clamp(3rem,7vw,6rem);
+    font-weight:800;
+    line-height:1.05;
+    letter-spacing:-0.03em;
+    margin-bottom:1.5rem;
+    animation:fadeUp 0.8s ease 0.15s both;
+  }
+  .hero h1 em{
+    font-style:normal;
+    background:linear-gradient(135deg,#9b7de8,#5424bb,#c084fc);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  }
+  .hero-sub{
+    font-size:1.15rem;color:var(--gray);max-width:620px;margin:0 auto 3rem;
+    line-height:1.7;
+    animation:fadeUp 0.8s ease 0.3s both;
+  }
+  .hero-actions{
+    display:flex;gap:1rem;justify-content:center;flex-wrap:wrap;
+    animation:fadeUp 0.8s ease 0.45s both;
+  }
+  .btn-primary{
+    padding:0.9rem 2.2rem;
+    background:var(--purple);color:var(--white);
+    border:none;border-radius:6px;
+    font-size:0.9rem;font-weight:600;letter-spacing:0.05em;
+    cursor:pointer;text-decoration:none;
+    transition:all 0.25s;
+    position:relative;overflow:hidden;
+  }
+  .btn-primary::after{
+    content:'';position:absolute;inset:0;
+    background:linear-gradient(135deg,rgba(255,255,255,0.1),transparent);
+    opacity:0;transition:opacity 0.2s;
+  }
+  .btn-primary:hover{background:var(--purple-light);transform:translateY(-2px);box-shadow:0 12px 40px rgba(84,36,187,0.4)}
+  .btn-primary:hover::after{opacity:1}
+  .btn-ghost{
+    padding:0.9rem 2.2rem;
+    background:transparent;color:var(--white);
+    border:1px solid var(--border);border-radius:6px;
+    font-size:0.9rem;font-weight:500;letter-spacing:0.05em;
+    cursor:pointer;text-decoration:none;
+    transition:all 0.25s;
+  }
+  .btn-ghost:hover{border-color:rgba(255,255,255,0.25);background:var(--surface);transform:translateY(-2px)}
+  .hero-scroll{
+    position:absolute;bottom:2.5rem;left:50%;transform:translateX(-50%);
+    display:flex;flex-direction:column;align-items:center;gap:0.5rem;
+    color:var(--gray);font-size:0.7rem;letter-spacing:0.15em;text-transform:uppercase;
+    animation:fadeUp 1s ease 0.9s both;
+  }
+  .scroll-line{
+    width:1px;height:40px;background:linear-gradient(to bottom,transparent,var(--gray));
+    animation:scrollDrop 2s ease-in-out infinite;
+  }
+  @keyframes scrollDrop{0%{transform:scaleY(0);transform-origin:top}50%{transform:scaleY(1);transform-origin:top}51%{transform-origin:bottom}100%{transform:scaleY(0);transform-origin:bottom}}
+
+  /* PLATFORMS */
+  .platforms{
+    padding:3rem 4rem;
+    border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+    display:flex;align-items:center;justify-content:center;gap:3rem;flex-wrap:wrap;
+  }
+  .platforms-label{font-size:0.7rem;letter-spacing:0.2em;text-transform:uppercase;color:var(--gray)}
+  .platforms-list{display:flex;gap:2.5rem;align-items:center}
+  .platform-tag{
+    font-size:0.8rem;letter-spacing:0.12em;text-transform:uppercase;
+    color:rgba(255,255,255,0.35);font-weight:600;
+    transition:color 0.2s;cursor:default;
+  }
+  .platform-tag:hover{color:rgba(255,255,255,0.7)}
+
+  /* SECTIONS COMMON */
+  section{padding:7rem 4rem}
+  .section-label{
+    font-size:0.7rem;letter-spacing:0.25em;text-transform:uppercase;
+    color:var(--purple-light);margin-bottom:1rem;
+  }
+  .section-title{
+    font-size:clamp(2.2rem,4vw,3.2rem);font-weight:800;
+    line-height:1.1;letter-spacing:-0.025em;
+    max-width:700px;
+  }
+  .section-sub{
+    font-size:1rem;color:var(--gray);max-width:500px;
+    margin-top:1.2rem;line-height:1.7;
+  }
+
+  @keyframes fadeUp{
+    from{opacity:0;transform:translateY(30px)}
+    to{opacity:1;transform:translateY(0)}
+  }
+  .reveal{opacity:0;transform:translateY(40px);transition:opacity 0.8s ease,transform 0.8s ease}
+  .reveal.visible{opacity:1;transform:translateY(0)}
+
+  /* SERVICES */
+  .services-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    border:1px solid var(--border);border-radius:12px;overflow:hidden;
+    margin-top:4rem;
+  }
+  .service-card{
+    padding:2.5rem 2rem;
+    background:var(--surface);
+    transition:background 0.3s;
+    position:relative;overflow:hidden;
+  }
+  .service-card::before{
+    content:'';position:absolute;top:0;left:0;right:0;height:2px;
+    background:var(--purple);transform:scaleX(0);transform-origin:left;
+    transition:transform 0.4s ease;
+  }
+  .service-card:hover{background:var(--surface-hover)}
+  .service-card:hover::before{transform:scaleX(1)}
+  .service-num{
+    font-size:0.7rem;letter-spacing:0.2em;color:var(--purple-light);
+    margin-bottom:1.5rem;font-weight:600;
+  }
+  .service-icon{
+    width:44px;height:44px;border-radius:10px;
+    background:var(--purple-soft);border:1px solid var(--border-accent);
+    display:flex;align-items:center;justify-content:center;
+    margin-bottom:1.5rem;font-size:18px;
+  }
+  .service-card h3{font-size:1.2rem;font-weight:700;margin-bottom:0.8rem}
+  .service-card p{font-size:0.9rem;color:var(--gray);line-height:1.7;margin-bottom:1.5rem}
+  .service-bullets{list-style:none;display:flex;flex-direction:column;gap:0.5rem}
+  .service-bullets li{
+    font-size:0.82rem;color:rgba(255,255,255,0.5);
+    padding-left:1rem;position:relative;
+  }
+  .service-bullets li::before{
+    content:'';position:absolute;left:0;top:0.55em;
+    width:4px;height:4px;border-radius:50%;background:var(--purple-light);
+  }
+
+  /* PROCESS */
+  .process-section{background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .process-steps{
+    display:grid;grid-template-columns:repeat(5,1fr);gap:0;
+    margin-top:4rem;border:1px solid var(--border);border-radius:12px;overflow:hidden;
+  }
+  .process-step{
+    padding:2rem 1.5rem;
+    border-right:1px solid var(--border);
+    position:relative;transition:background 0.3s;
+  }
+  .process-step:last-child{border-right:none}
+  .process-step:hover{background:var(--surface-hover)}
+  .step-num{
+    font-size:2.5rem;font-weight:900;
+    color:rgba(84,36,187,0.2);margin-bottom:1rem;
+    line-height:1;font-variant-numeric:tabular-nums;
+  }
+  .process-step h4{font-size:1rem;font-weight:700;margin-bottom:0.6rem}
+  .process-step p{font-size:0.82rem;color:var(--gray);line-height:1.6}
+
+  /* ABOUT */
+  .about-inner{
+    display:grid;grid-template-columns:1fr 1fr;gap:6rem;
+    align-items:center;
+  }
+  .about-visual{
+    position:relative;
+    aspect-ratio:1;max-width:460px;
+  }
+  .about-box{
+    position:absolute;
+    border-radius:12px;
+    border:1px solid var(--border);
+    background:var(--surface);
+    backdrop-filter:blur(10px);
+    padding:1.2rem 1.5rem;
+  }
+  .about-box-main{
+    inset:0;
+    display:flex;align-items:center;justify-content:center;
+    background:linear-gradient(135deg,rgba(84,36,187,0.12),rgba(84,36,187,0.04));
+    border-color:var(--border-accent);
+  }
+  .about-stat{text-align:center}
+  .about-stat .big{font-size:3.5rem;font-weight:900;line-height:1;color:var(--white)}
+  .about-stat .big span{color:var(--purple-light)}
+  .about-stat .label{font-size:0.8rem;color:var(--gray);margin-top:0.4rem;letter-spacing:0.08em}
+  .floating-pill{
+    position:absolute;
+    background:rgba(0,0,0,0.8);
+    border:1px solid var(--border-accent);
+    border-radius:100px;
+    padding:0.5rem 1rem;
+    font-size:0.75rem;
+    font-weight:600;
+    color:var(--off-white);
+    white-space:nowrap;
+    animation:floatPill 4s ease-in-out infinite;
+  }
+  .fp1{top:15%;right:-5%;animation-delay:0s}
+  .fp2{bottom:20%;left:-8%;animation-delay:-2s}
+  @keyframes floatPill{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  .fp-dot{display:inline-block;width:6px;height:6px;border-radius:50%;background:#22c55e;margin-right:6px;vertical-align:middle}
+  .about-text .section-title{max-width:none}
+  .about-text p{font-size:0.95rem;color:var(--gray);line-height:1.8;margin-top:1.5rem}
+  .about-tags{display:flex;flex-wrap:wrap;gap:0.5rem;margin-top:2rem}
+  .about-tag{
+    padding:0.4rem 1rem;
+    background:var(--purple-soft);border:1px solid var(--border-accent);
+    border-radius:100px;font-size:0.78rem;color:var(--purple-light);
+    font-weight:500;
+  }
+
+  /* RESULTS */
+  .results-grid{
+    display:grid;grid-template-columns:repeat(2,1fr);gap:1.5rem;
+    margin-top:4rem;
+  }
+  .result-card{
+    padding:2rem 2rem;
+    background:var(--surface);
+    border:1px solid var(--border);
+    border-radius:12px;
+    transition:all 0.3s;
+    position:relative;overflow:hidden;
+  }
+  .result-card::after{
+    content:'';position:absolute;bottom:0;left:0;right:0;height:1px;
+    background:linear-gradient(to right,transparent,var(--purple),transparent);
+    opacity:0;transition:opacity 0.3s;
+  }
+  .result-card:hover{border-color:var(--border-accent);transform:translateY(-4px)}
+  .result-card:hover::after{opacity:1}
+  .result-icon{font-size:1.5rem;margin-bottom:1rem}
+  .result-card h4{font-size:1rem;font-weight:700;margin-bottom:0.6rem}
+  .result-card p{font-size:0.87rem;color:var(--gray);line-height:1.7}
+  .result-caveat{
+    margin-top:3rem;text-align:center;
+    font-size:0.82rem;color:rgba(255,255,255,0.3);
+    font-style:italic;
+  }
+
+  /* TOGGLE FOR BRANDS / CREATORS */
+  .toggle-section{padding:6rem 4rem;background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
+  .toggle-wrapper{display:flex;justify-content:center;margin-bottom:3rem}
+  .toggle-bar{
+    display:flex;gap:0;
+    background:rgba(255,255,255,0.04);
+    border:1px solid var(--border);border-radius:8px;overflow:hidden;
+  }
+  .toggle-btn{
+    padding:0.7rem 2rem;
+    background:transparent;color:var(--gray);
+    border:none;cursor:pointer;
+    font-size:0.85rem;font-weight:600;letter-spacing:0.08em;
+    text-transform:uppercase;transition:all 0.25s;
+  }
+  .toggle-btn.active{background:var(--purple);color:var(--white)}
+  .toggle-content{display:none;max-width:800px;margin:0 auto}
+  .toggle-content.active{display:grid;grid-template-columns:repeat(3,1fr);gap:1.5rem;animation:fadeUp 0.4s ease both}
+  .tc-card{
+    padding:1.5rem;background:var(--surface);
+    border:1px solid var(--border);border-radius:10px;
+    text-align:center;transition:all 0.3s;
+  }
+  .tc-card:hover{border-color:var(--border-accent);background:var(--surface-hover)}
+  .tc-card .tc-icon{font-size:1.8rem;margin-bottom:0.8rem}
+  .tc-card h4{font-size:0.95rem;font-weight:700;margin-bottom:0.5rem}
+  .tc-card p{font-size:0.82rem;color:var(--gray);line-height:1.6}
+
+  /* CTA */
+  .cta-section{
+    text-align:center;padding:8rem 4rem;
+    position:relative;overflow:hidden;
+  }
+  .cta-section::before{
+    content:'';position:absolute;
+    inset:0;
+    background:radial-gradient(ellipse 70% 70% at 50% 50%,rgba(84,36,187,0.2),transparent 70%);
+  }
+  .cta-inner{position:relative;z-index:1;max-width:700px;margin:0 auto}
+  .cta-section .section-title{max-width:none;text-align:center;margin:0 auto}
+  .cta-section .section-sub{text-align:center;margin:1.5rem auto 3rem}
+  .cta-actions{display:flex;gap:1rem;justify-content:center;flex-wrap:wrap}
+
+  /* FOOTER */
+  footer{
+    padding:3rem 4rem;
+    border-top:1px solid var(--border);
+    display:grid;grid-template-columns:1fr auto 1fr;
+    align-items:center;gap:2rem;
+  }
+  .footer-logo{font-size:1rem;font-weight:700;letter-spacing:0.25em;color:var(--white)}
+  .footer-logo span{color:var(--purple-light)}
+  .footer-links{display:flex;gap:2rem;justify-content:center}
+  .footer-links a{font-size:0.78rem;color:var(--gray);text-decoration:none;letter-spacing:0.08em;transition:color 0.2s}
+  .footer-links a:hover{color:var(--white)}
+  .footer-copy{font-size:0.75rem;color:rgba(255,255,255,0.25);text-align:right;font-style:italic}
+
+  @media(max-width:1024px){
+    nav{padding:1.2rem 2rem}
+    section{padding:5rem 2rem}
+    .hero{padding:7rem 2rem 4rem}
+    .platforms{padding:2.5rem 2rem}
+    .services-grid{grid-template-columns:1fr}
+    .process-steps{grid-template-columns:repeat(3,1fr)}
+    .process-step:nth-child(3){border-right:none}
+    .about-inner{grid-template-columns:1fr;gap:3rem}
+    .about-visual{max-width:100%;aspect-ratio:auto;height:300px}
+    .results-grid{grid-template-columns:1fr}
+    footer{grid-template-columns:1fr;text-align:center;gap:1.2rem}
+    .footer-copy{text-align:center}
+    .toggle-content.active{grid-template-columns:1fr}
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <a href="#" class="nav-logo">VAN<span>T</span>AGE</a>
+  <ul class="nav-links">
+    <li><a href="#services">Services</a></li>
+    <li><a href="#process">Approach</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#results">Results</a></li>
+  </ul>
+  <a href="#cta" class="nav-cta">Book a Call</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-content">
+    <div class="hero-badge">Global Influencer & Talent Agency</div>
+    <h1>We Build Influence<br>That <em>Converts.</em></h1>
+    <p class="hero-sub">Strategic influencer marketing, social growth, and talent sourcing — designed for brands that want real impact, not vanity metrics.</p>
+    <div class="hero-actions">
+      <a href="#cta" class="btn-primary">Book a Strategy Call</a>
+      <a href="#process" class="btn-ghost">View Our Approach</a>
+    </div>
+  </div>
+  <div class="hero-scroll">
+    <div class="scroll-line"></div>
+    Scroll
+  </div>
+</section>
+
+<!-- PLATFORMS -->
+<div class="platforms reveal">
+  <span class="platforms-label">Active on</span>
+  <div class="platforms-list">
+    <span class="platform-tag">YouTube</span>
+    <span class="platform-tag">Instagram</span>
+    <span class="platform-tag">TikTok</span>
+    <span class="platform-tag">LinkedIn</span>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<section id="services">
+  <div class="reveal">
+    <p class="section-label">What we do</p>
+    <h2 class="section-title">Selective partnerships.<br>Measurable impact.</h2>
+    <p class="section-sub">We work with brands and creators who want more than reach — they want results.</p>
+  </div>
+  <div class="services-grid reveal">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <div class="service-icon">📡</div>
+      <h3>Influencer Marketing</h3>
+      <p>We don't just find influencers — we engineer campaigns that drive measurable results. From creator sourcing to execution, we manage the full lifecycle.</p>
+      <ul class="service-bullets">
+        <li>Creator sourcing across YouTube, TikTok, Instagram, LinkedIn</li>
+        <li>Campaign strategy &amp; positioning</li>
+        <li>Outreach &amp; relationship management</li>
+        <li>Performance tracking &amp; optimization</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <div class="service-icon">📊</div>
+      <h3>Social Media Management</h3>
+      <p>We turn your social presence into a growth engine. Content strategy to execution — building authority, engagement, and consistent visibility.</p>
+      <ul class="service-bullets">
+        <li>Content strategy &amp; planning</li>
+        <li>Short-form &amp; platform-native content</li>
+        <li>Growth optimization</li>
+        <li>Analytics &amp; reporting</li>
+      </ul>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <div class="service-icon">🎯</div>
+      <h3>Creative Talent Recruitment</h3>
+      <p>We connect brands with high-performing creators and marketing talent. Whether you need influencers or internal team members — right people, fast.</p>
+      <ul class="service-bullets">
+        <li>Creator &amp; influencer sourcing</li>
+        <li>Marketing talent recruitment</li>
+        <li>Pre-vetted candidates</li>
+        <li>Fast turnaround</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- BRANDS / CREATORS TOGGLE -->
+<div class="toggle-section">
+  <div class="reveal" style="text-align:center">
+    <p class="section-label">Who we work with</p>
+    <h2 class="section-title" style="max-width:none;text-align:center">Built for both sides<br>of the market.</h2>
+  </div>
+  <div class="toggle-wrapper reveal">
+    <div class="toggle-bar">
+      <button class="toggle-btn active" onclick="switchToggle('brands')">For Brands</button>
+      <button class="toggle-btn" onclick="switchToggle('creators')">For Creators</button>
+    </div>
+  </div>
+  <div class="toggle-content active reveal" id="tab-brands">
+    <div class="tc-card">
+      <div class="tc-icon">🚀</div>
+      <h4>Campaign Launch</h4>
+      <p>End-to-end influencer campaigns designed around your goals — not impressions.</p>
+    </div>
+    <div class="tc-card">
+      <div class="tc-icon">🔍</div>
+      <h4>Data-Driven Matching</h4>
+      <p>We match you with creators based on audience fit, engagement quality, and brand alignment.</p>
+    </div>
+    <div class="tc-card">
+      <div class="tc-icon">📈</div>
+      <h4>Global Campaigns</h4>
+      <p>Campaigns across US, UK, and international markets — scaled for real reach.</p>
+    </div>
+  </div>
+  <div class="toggle-content" id="tab-creators">
+    <div class="tc-card">
+      <div class="tc-icon">🤝</div>
+      <h4>Brand Partnerships</h4>
+      <p>We connect you with brands that fit your niche, audience, and content style.</p>
+    </div>
+    <div class="tc-card">
+      <div class="tc-icon">💼</div>
+      <h4>Talent Representation</h4>
+      <p>Strategic guidance and placement to help you grow your creator career.</p>
+    </div>
+    <div class="tc-card">
+      <div class="tc-icon">⚡</div>
+      <h4>Selective Partnerships</h4>
+      <p>We only work with creators we genuinely believe in — quality over quantity.</p>
+    </div>
+  </div>
+</div>
+
+<!-- PROCESS -->
+<section id="process" class="process-section">
+  <div class="reveal">
+    <p class="section-label">How we work</p>
+    <h2 class="section-title">Our Approach</h2>
+    <p class="section-sub">A clear, repeatable framework that removes guesswork and drives consistent outcomes.</p>
+  </div>
+  <div class="process-steps reveal">
+    <div class="process-step">
+      <div class="step-num">01</div>
+      <h4>Strategy</h4>
+      <p>We define clear goals, audience targeting, and campaign direction before anything moves.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">02</div>
+      <h4>Sourcing</h4>
+      <p>We identify high-fit creators and talent based on data, not guesswork or follower counts.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">03</div>
+      <h4>Execution</h4>
+      <p>We manage outreach, negotiation, and campaign rollout — end to end.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">04</div>
+      <h4>Optimization</h4>
+      <p>We track performance in real time and refine for stronger results.</p>
+    </div>
+    <div class="process-step">
+      <div class="step-num">05</div>
+      <h4>Scale</h4>
+      <p>We double down on what works and expand campaigns efficiently and sustainably.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about-inner">
+    <div class="about-visual reveal">
+      <div class="about-box about-box-main">
+        <div class="about-stat">
+          <div class="big">4<span>+</span></div>
+          <div class="label">Platforms Mastered</div>
+        </div>
+      </div>
+      <div class="floating-pill fp1"><span class="fp-dot"></span>YouTube · TikTok · IG</div>
+      <div class="floating-pill fp2"><span class="fp-dot"></span>LinkedIn Growth</div>
+    </div>
+    <div class="about-text reveal">
+      <p class="section-label">Our edge</p>
+      <h2 class="section-title">Built on Experience,<br>Not Theory</h2>
+      <p>Behind the scenes, we've worked across YouTube, TikTok, Instagram, and LinkedIn — managing campaigns, scaling creators, and connecting brands with the right audiences at the right moment.</p>
+      <p>We understand both sides of the market — creators and brands — and that dual perspective is what gives us an edge most agencies simply don't have.</p>
+      <div class="about-tags">
+        <span class="about-tag">Creator Strategy</span>
+        <span class="about-tag">Campaign Management</span>
+        <span class="about-tag">Audience Growth</span>
+        <span class="about-tag">Data-Driven Matching</span>
+        <span class="about-tag">Global Campaigns</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section id="results" style="background:var(--surface);border-top:1px solid var(--border);border-bottom:1px solid var(--border)">
+  <div class="reveal">
+    <p class="section-label">What we focus on</p>
+    <h2 class="section-title">Impact Over Impressions</h2>
+    <p class="section-sub">Every campaign is built around these pillars — because metrics that don't move business don't matter.</p>
+  </div>
+  <div class="results-grid reveal">
+    <div class="result-card">
+      <div class="result-icon">📬</div>
+      <h4>High-Conversion Outreach</h4>
+      <p>Our influencer outreach campaigns are crafted to get responses. Personalization, positioning, and timing — done right from the first message.</p>
+    </div>
+    <div class="result-card">
+      <div class="result-icon">🎯</div>
+      <h4>Strong Creator-Brand Fit</h4>
+      <p>We don't spray-and-pray. Every creator we recommend is selected based on audience alignment, engagement quality, and brand compatibility.</p>
+    </div>
+    <div class="result-card">
+      <div class="result-icon">⚙️</div>
+      <h4>Scalable Content Strategies</h4>
+      <p>We build content frameworks that work at scale — consistent, on-brand, and designed to perform across multiple platforms simultaneously.</p>
+    </div>
+    <div class="result-card">
+      <div class="result-icon">📉</div>
+      <h4>Performance-Driven Decisions</h4>
+      <p>Every decision is backed by data. We track what matters — conversions, engagement quality, ROI — and cut what doesn't perform.</p>
+    </div>
+  </div>
+  <p class="result-caveat">Results vary by campaign — but our focus is always the same: impact over impressions.</p>
+</section>
+
+<!-- CTA -->
+<section id="cta" class="cta-section">
+  <div class="cta-inner reveal">
+    <p class="section-label">Ready when you are</p>
+    <h2 class="section-title">Let's Build Something<br>That Scales.</h2>
+    <p class="section-sub">Whether you're launching a campaign or growing your brand presence, we'll help you do it right — strategically, efficiently, and without the fluff.</p>
+    <div class="cta-actions">
+      <a href="https://calendly.com" class="btn-primary" target="_blank">Book a Call</a>
+      <a href="mailto:hello@vantageagency.co" class="btn-ghost">Contact Us</a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-logo">VAN<span>T</span>AGE</div>
+  <div class="footer-links">
+    <a href="#services">Services</a>
+    <a href="#process">Approach</a>
+    <a href="#about">About</a>
+    <a href="mailto:hello@vantageagency.co">hello@vantageagency.co</a>
+  </div>
+  <p class="footer-copy">© 2026 — Built for brands that move differently.</p>
+</footer>
+
+<script>
+  function switchToggle(tab){
+    document.querySelectorAll('.toggle-btn').forEach(b=>b.classList.remove('active'));
+    document.querySelectorAll('.toggle-content').forEach(c=>c.classList.remove('active'));
+    event.target.classList.add('active');
+    document.getElementById('tab-'+tab).classList.add('active');
+  }
+
+  const observer=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(e.isIntersecting){e.target.classList.add('visible');observer.unobserve(e.target)}
+    });
+  },{threshold:0.1,rootMargin:'0px 0px -60px 0px'});
+  document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+
+  window.addEventListener('scroll',()=>{
+    const nav=document.getElementById('nav');
+    nav.style.background=window.scrollY>50?'rgba(0,0,0,0.9)':'rgba(0,0,0,0.6)';
+  });
+</script>
+</body>
+</html>
